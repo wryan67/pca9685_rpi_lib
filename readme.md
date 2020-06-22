@@ -1,13 +1,11 @@
-PCS9685
--------
+PCS9685 Utility
+---------------
 PCA9685 servo driver utility for the Raspberry Pi, using wiringPi
 
-
-
 ## Prerequisite
-Please install the pca9685 driver from @Reinbert.  This utility is based on [WiringPi](http://wiringpi.com/), so, you'll need make sure you have WiringPi installed before you can succesfully compile this library.  
+Please install the pca9685 driver from @Reinbert.  Also, this utility is based on [WiringPi](http://wiringpi.com/), so, you'll need make sure you have WiringPi installed before you can succesfully compile this library.  
 
-    [https://github.com/Reinbert/pca9685.git](https://github.com/Reinbert/pca9685.git)
+### -->[https://github.com/Reinbert/pca9685.git](https://github.com/Reinbert/pca9685.git)
 
 
 ## Install
@@ -28,3 +26,13 @@ and install the library.
     x = max freq
     f = frequency 0-100
     Mode:   f     - set frequency and exit. (override m & x)        m & x - run test over range.
+
+
+## Example
+Examples using the utility:
+
+    $ pca9685 -p 0 -f 230
+    $ pca9685 -p 1 -f 325
+
+    $ pca9685 -p 0 -f 163
+    $ pca9685 -p 1 -f 397
