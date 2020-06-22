@@ -5,7 +5,7 @@ PCA9685 servo driver utility for the Raspberry Pi, using wiringPi
 ## Prerequisite
 Please install the pca9685 driver from @Reinbert.  Also, this utility is based on [WiringPi](http://wiringpi.com/), so, you'll need make sure you have WiringPi installed before you can succesfully compile this library.  
 
-### -->[https://github.com/Reinbert/pca9685.git](https://github.com/Reinbert/pca9685.git)
+> [https://github.com/Reinbert/pca9685.git](https://github.com/Reinbert/pca9685.git)
 
 
 ## Install
