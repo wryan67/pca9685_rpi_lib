@@ -1,4 +1,4 @@
-PCS9685 Utility
+PCA9685 Utility
 ---------------
 PCA9685 servo driver utility for the Raspberry Pi, using wiringPi
 
