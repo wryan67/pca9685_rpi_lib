@@ -12,12 +12,12 @@ static int PCA9865_CAP      = 50;
 static int PCA9865_RES      = 4046;
 static int PCA9865_ADDRESS  = 0x40;
 static int pwmPin           = 0;
-static int pwmFreq          = -1;
+static int pwmDutyCycle     = -1;
 static bool pwmEven = false;
 static bool debug = false;
 
-static int pwmMinFreq = 103;
-static int pwmMaxFreq = 516;
+static int pwmMinDutyCycle = 103;
+static int pwmMaxDutyCycle = 516;
 
 static int pca9685fd = -1;
 
@@ -71,14 +71,14 @@ bool setup() {
 
 
 bool usage() {
-	fprintf(stderr, "usage: pwm [-a 00-FF] [-c cap] [-p 0-15] [-f freq] [-m freq] [-x freq] [-e]\n");
+	fprintf(stderr, "usage: pwm [-a 00-FF] [-c cap] [-p 0-15] [-f duty_cycle] [-m freq] [-x freq] [-e]\n");
 	fprintf(stderr, "a = hexadecimal i2c address of the PCA9685 ($ gpio i2cd); default 0x40\n");
 	fprintf(stderr, "p = PCA9685 pin number (0-15)\n");
 	fprintf(stderr, "e = use even split pulse, default is trigger pulse which is for servos\n");
 	fprintf(stderr, "c = frequency cap (40-1526).  The default is 50, which is for servos\n");
 	fprintf(stderr, "m = min freq\n");
 	fprintf(stderr, "x = max freq\n");
-	fprintf(stderr, "f = frequency 0-100\n");
+	fprintf(stderr, "f = duty cycle 0-511\n");
 	fprintf(stderr, "Mode:   f     - set frequency and exit. (override m & x)");
 	fprintf(stderr, "        m & x - run test over range. ");
 
@@ -98,7 +98,7 @@ bool commandLineOptions(int argc, char **argv) {
 			pwmEven = true;
 			break;
 		case 'f':
-			sscanf(optarg, "%d", &pwmFreq);
+			sscanf(optarg, "%d", &pwmDutyCycle);
 			break;
 		case 'c':
 			sscanf(optarg, "%d", &PCA9865_CAP);
@@ -107,10 +107,10 @@ bool commandLineOptions(int argc, char **argv) {
 			debug=true;
 			break;
 		case 'm':
-			sscanf(optarg, "%d", &pwmMinFreq);
+			sscanf(optarg, "%d", &pwmMinDutyCycle);
 			break;
 		case 'x':
-			sscanf(optarg, "%d", &pwmMaxFreq);
+			sscanf(optarg, "%d", &pwmMaxDutyCycle);
 			break;
 		case 'a':
 			sscanf(optarg, "%x", &PCA9865_ADDRESS);
@@ -161,27 +161,27 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	if (pwmFreq > -1) {
-		setFrequency(pwmPin, pwmFreq);
+	if (pwmDutyCycle > -1) {
+		setFrequency(pwmPin, pwmDutyCycle);
 		return 0;
 	}
 
 	if (debug) {
 		printf("set min freq\n" ); fflush(stdout);
 	}
-	setFrequency(pwmPin, pwmMinFreq);
+	setFrequency(pwmPin, pwmMinDutyCycle);
 	delay(500);
 
 	for (int i = 0; i < 2; ++i) {
-		setFrequency(pwmPin, pwmMaxFreq);
+		setFrequency(pwmPin, pwmMaxDutyCycle);
 		delay(350);
 
-		setFrequency(pwmPin, pwmMinFreq);
+		setFrequency(pwmPin, pwmMinDutyCycle);
 		delay(500);
 	}
 	delay(2000);
 
-	for (int f = pwmMinFreq; f <= pwmMaxFreq; ++f) {
+	for (int f = pwmMinDutyCycle; f <= pwmMaxDutyCycle; ++f) {
 
 		if (pwmEven) {
 			pca9685PWMWrite(pca9685fd, pwmPin, f / 2, f / 2);
