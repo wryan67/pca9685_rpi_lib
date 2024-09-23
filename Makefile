@@ -6,7 +6,7 @@ all: pca9685
 
 
 pca9685: libs.chk
-	gcc -lwiringPiPca9685 -lwiringPi main.cpp -o pca9685
+	gcc maint.cpp -lwiringPiPca9685 -lwiringPi -o pca9685
 
 libs.chk: -lwiringPiPca9685 
 	@chmod 755 libs.sh
